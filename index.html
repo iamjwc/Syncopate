@@ -50,6 +50,20 @@
           });
         });
       });
+
+      asyncTest("run finding a row just inserted by using the IN operator", function() {
+        var labelValue = "LABEL_VALUE";
+        s.transact(function(tx) {
+          s.write("boxes", {label: labelValue, contents: "Contents of Box"}, function() {
+            s.count("boxes", {label: ['IN', "('" + labelValue + "')"]}, function(count) {
+              equals(count, 1);
+              start();
+
+              throw("removing modified data");
+            }, null, tx);
+          }, null, tx);
+        });
+      });
       
       asyncTest("renameTable should ensure count fails on original table name, works on new name", function() {
         s.renameTable("boxes", "containers", function() {
