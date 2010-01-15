@@ -53,7 +53,7 @@ Storage.prototype = {
       }
       else if(conditions[colName].constructor === Array) {
         conditionSql += colName + " " + conditions[colName][0] + " ";
-        if(typeof conditions[colName][1] === "string") {
+        if(typeof conditions[colName][1] === "string" && conditions[colName][0].toLowerCase() != "in") {
           var comparisonString = conditions[colName][1];
           comparisonString = comparisonString.replace(/'/g, "''");
           conditionSql += "'" + comparisonString + "' AND ";
